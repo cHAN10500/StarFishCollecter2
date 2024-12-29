@@ -155,7 +155,7 @@ public class GameScreen implements Screen {
                 nenMusic.play();
             }
         }
-        
+
         if (Intersector.overlapConvexPolygons(turtle.getPolygon(), rock.getPolygon())
             || Intersector.overlapConvexPolygons(turtle.getPolygon(), rock1.getPolygon())
             || Intersector.overlapConvexPolygons(turtle.getPolygon(), rock2.getPolygon())

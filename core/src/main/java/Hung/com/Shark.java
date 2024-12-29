@@ -70,7 +70,7 @@ public class Shark extends Actor {
         }
         if(getX()<0){
             setScaleY(-getScaleY());
-            setRotation(0);
+            //setRotation(0);
 
         }
 
