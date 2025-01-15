@@ -28,7 +28,7 @@ import static com.badlogic.gdx.Gdx.input;
 public class GameScreen implements Screen {
     Master game;
     ShapeRenderer shapeRenderer;
-    Texture waterborder;
+    Background waterborder;
     Stage stage;
     Random random;
     MyActor turtle;
@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
         stage = new Stage();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        waterborder = new Texture("water-border.jpg ");
+        waterborder = new Background(0,0,stage);
         rock = new Rock(100, 90, stage);
         rock1 = new Rock(180, 350, stage);
         rock2 = new Rock(290, 120, stage);
@@ -90,7 +90,6 @@ public class GameScreen implements Screen {
 
         tank = new Shark(Gdx.graphics.getWidth() - 100,Gdx.graphics.getHeight() - 262,stage);
 
-        waterborder = new Texture("water-border.jpg");
         rockImage = new Texture("rock.png");
         sighImage = new Texture("sign.png");
         win = new Texture("you-win.png");
@@ -137,7 +136,40 @@ public class GameScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(waterborder, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.end();
+        stage.draw();
+        stage.act();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            stage.getCamera().position.y +=1;
+
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            stage.getCamera().position.y -=1;
+
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            stage.getCamera().position.x +=1;
+
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            stage.getCamera().position.x -=1;
+
+        }
+
+        if(stage.getCamera().position.x<400){
+            stage.getCamera().position.x=400;
+        }
+        if(stage.getCamera().position.x>800){
+            stage.getCamera().position.x=800;
+        }
+        if(stage.getCamera().position.y<300){
+            stage.getCamera().position.y=300;
+        }
+        if(stage.getCamera().position.y>500){
+            stage.getCamera().position.y=500;
+        }
+
+        game.batch.begin();
         game.font.draw(game.batch, "starfish:" + String.valueOf(starfish), 0, Gdx.graphics.getHeight());
         if (starfish < 1) {
             game.batch.draw(win, Gdx.graphics.getWidth() / 2 - win.getWidth() / 2, Gdx.graphics.getHeight() / 2 - win.getHeight() / 2);
@@ -147,7 +179,7 @@ public class GameScreen implements Screen {
         if (Intersector.overlapConvexPolygons(turtle.getPolygon(), tank.getPolygon())) {
             game.batch.draw(gameover, Gdx.graphics.getWidth() / 2 - gameover.getWidth() / 2, Gdx.graphics.getHeight() / 2 - gameover.getHeight() / 2 + 10);
            kt = true;
-            stage.clear();
+           stage.clear();
         }
         game.batch.end();
         if(kt == false) {
@@ -167,32 +199,44 @@ public class GameScreen implements Screen {
 
         if (Intersector.overlapConvexPolygons(turtle.getPolygon(), starfish1.getPolygon())) {
             an = new An(new Texture("whirlpool.png"), 5, 2);
+            dropSound.play();
+
+            if(starfish==1){
+                an = new An(new Texture("sparkle.png"), 8, 8);
+            }
             an.setPosition(starfish1.getX(), starfish1.getY());
             starfish1.setPosition(MathUtils.random(Gdx.graphics.getWidth() - starfish1.getWidth()), MathUtils.random( Gdx.graphics.getHeight() - starfish1.getHeight()));
             stage.addActor(an);
-            dropSound.play();
             starfish--;
         }
 
         if (Intersector.overlapConvexPolygons(turtle.getPolygon(), starfish2.getPolygon())) {
             an = new An(new Texture("whirlpool.png"), 5, 2);
+            dropSound.play();
+
+            if(starfish==1){
+                an = new An(new Texture("sparkle.png"), 8, 8);
+            }
             an.setPosition(starfish2.getX(), starfish2.getY());
             starfish2.setPosition(MathUtils.random(Gdx.graphics.getWidth() - starfish2.getWidth()), MathUtils.random( Gdx.graphics.getHeight() - starfish2.getHeight()));
             stage.addActor(an);
-            dropSound.play();
             starfish--;
         }
 
         if (Intersector.overlapConvexPolygons(turtle.getPolygon(), starfish3.getPolygon())) {
             an = new An(new Texture("whirlpool.png"), 5, 2);
+            dropSound.play();
+
+            if(starfish==1){
+                an = new An(new Texture("sparkle.png"), 8, 8);
+            }
             an.setPosition(starfish3.getX(), starfish3.getY());
             starfish3.setPosition(MathUtils.random(Gdx.graphics.getWidth() - starfish3.getWidth()), MathUtils.random( Gdx.graphics.getHeight() - starfish3.getHeight()));
             stage.addActor(an);
-            dropSound.play();
             starfish--;
+
         }
-        stage.draw();
-        stage.act();
+
 
         if(input.isKeyJustPressed(Input.Keys.C) && kt){
             game.setScreen(new MenuScreen(game));// goi man hinh moi
