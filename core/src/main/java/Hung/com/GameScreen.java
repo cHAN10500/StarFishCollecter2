@@ -106,7 +106,6 @@ public class GameScreen implements Screen {
         sign1.polygon.setPosition(sign1.getX(),sign1.getY());
         turtle.polygon.setPosition(turtle .getX(),turtle .getY());
         tank.polygon.setPosition(tank.getX(),tank.getY());
-        stage.act();
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = game.font;
@@ -125,7 +124,7 @@ public class GameScreen implements Screen {
                 }
             }
         });
-
+        System.out.println(stage.getCamera().position.x + " "+stage.getCamera().position.y);
 
     }
 
@@ -135,38 +134,35 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.batch.end();
         stage.draw();
         stage.act();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            stage.getCamera().position.y +=1;
 
+//        if(turtle.getX()>320 - && turtle.getX()<880) {
+//            stage.getCamera().position.x = turtle.getX();
+//        }
+//        if(turtle.getY()>240 && turtle.getY()<560) {
+//            stage.getCamera().position.y = turtle.getY();
+//        }
+        if((turtle.getX()>320-(turtle.speed * MathUtils.cosDeg(turtle.getRotation()))-turtle.getWidth()/2)&&(turtle.getX()<1200-(turtle.speed * MathUtils.cosDeg(turtle.getRotation()))-turtle.getWidth()/2)) {
+            stage.getCamera().position.x = turtle.getX()+ turtle.getWidth()/2;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            stage.getCamera().position.y -=1;
-
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            stage.getCamera().position.x +=1;
-
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            stage.getCamera().position.x -=1;
-
+        if((turtle.getY()>240- (turtle.speed*MathUtils.sinDeg(turtle.getRotation()))-turtle.getHeight()/2)&&(turtle.getY()<800-(turtle.speed*MathUtils.sinDeg(turtle.getRotation()))-turtle.getHeight()/2)) {
+            stage.getCamera().position.y = turtle.getY()+turtle.getHeight()/2;
         }
 
-        if(stage.getCamera().position.x<400){
-            stage.getCamera().position.x=400;
+
+
+        if(stage.getCamera().position.x<320){
+            stage.getCamera().position.x=320;
         }
-        if(stage.getCamera().position.x>800){
-            stage.getCamera().position.x=800;
+        if(stage.getCamera().position.x>880){
+            stage.getCamera().position.x=880;
         }
-        if(stage.getCamera().position.y<300){
-            stage.getCamera().position.y=300;
+        if(stage.getCamera().position.y<240){
+            stage.getCamera().position.y=240;
         }
-        if(stage.getCamera().position.y>500){
-            stage.getCamera().position.y=500;
+        if(stage.getCamera().position.y>560){
+            stage.getCamera().position.y=560;
         }
 
         game.batch.begin();
@@ -180,6 +176,7 @@ public class GameScreen implements Screen {
             game.batch.draw(gameover, Gdx.graphics.getWidth() / 2 - gameover.getWidth() / 2, Gdx.graphics.getHeight() / 2 - gameover.getHeight() / 2 + 10);
            kt = true;
            stage.clear();
+           nenMusic.stop();
         }
         game.batch.end();
         if(kt == false) {
